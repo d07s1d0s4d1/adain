@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Conv2D, UpSampling2D, Input, MaxPooling2D
 from tensorflow.keras import backend as K
 
 
-def create_model(input_shape=(256, 256, 3), coef=1., alpha=1):
+def create_model(input_shape=(256, 256, 3), coef=1., alpha=1, with_loss=True):
     vgg = VGG19(weights='imagenet', include_top=False, input_shape=input_shape)
     vgg = Model(inputs=vgg.inputs, outputs=vgg.get_layer('block4_conv1').output, name='vgg')
 
@@ -75,7 +75,10 @@ def create_model(input_shape=(256, 256, 3), coef=1., alpha=1):
 
     for layer in decoder_layers:
         x = layer(x)
-          
+    
+    if not with_loss:
+        return Model(inputs=[content_input, style_input], outputs=x)
+           
     # Connections for calculating of losses
     out = []
     for layer in enc_layers:

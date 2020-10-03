@@ -88,3 +88,15 @@ def plot_examples(imgs, rows, columns, figsize=(16,16)):
         fig.add_subplot(rows, columns, i)
         plt.imshow(img)
     plt.show()
+
+def plot(imgs, rows, columns, figsize=(16,16)):
+    titles = ['content', 'style', 'result']
+    fig = plt.figure(figsize=figsize)
+    for i, img in enumerate(imgs, 1):
+        if i > rows * columns:
+            break
+
+        axes = fig.add_subplot(rows, columns, i)
+        plt.imshow(img)
+        axes.set_title(titles[(i-1) % 3])
+    plt.show()
