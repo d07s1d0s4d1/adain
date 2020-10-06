@@ -6,7 +6,7 @@ from tensorflow.keras.models import Model
 
 
 if __name__ == "__main__":
-    loss_model = create_model(with_loss=False)
+    loss_model = create_model()
     loss_model.load_weights('weights/weights.h5')
     model = Model(inputs=loss_model.inputs, outputs=loss_model.get_layer('decoded').output)
     model.load_weights('weights/weights.h5')
