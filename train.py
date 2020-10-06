@@ -6,6 +6,9 @@ from generator import gen
 from utils import plot
 
 
+train_dir_name = 'images/train'
+style_dir_name = 'images/validation'
+
 N = 4
 input_shape=(256, 256, 3)
 lr = 1e-4
@@ -13,9 +16,10 @@ decay = 5e-5
 style_loss_weight = 10
 mode = 'simple'
 in_memory = False
+val_batch_size = 100
+
 epochs = 160
 batch_size = 8
-val_batch_size = 100
 steps_per_epoch = 1000
 
 if __name__ == '__main__':
@@ -23,12 +27,12 @@ if __name__ == '__main__':
     opt = Adam(learning_rate=lr, decay=decay)
     loss_model.compile(optimizer=opt)
 
-    train_gen = gen(dir_name, input_shape[:2], batch_size, mode, in_memory)
-    val_gen = gen(dir_name, input_shape[:2], val_batch_size, 'simple', in_memory, val=True)
+    train_gen = gen(train_dir_name, input_shape[:2], batch_size, mode, in_memory)
+    val_gen = gen(style_dir_name, input_shape[:2], val_batch_size, 'simple', in_memory)
     val_data = next(val_gen)
 
     ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=opt, net=loss_model)
-    manager = tf.train.CheckpointManager(ckpt, 'drive/My Drive/tf_ckpts', max_to_keep=3)
+    manager = tf.train.CheckpointManager(ckpt, '/tf_ckpts', max_to_keep=3)
 
     ckpt.restore(manager.latest_checkpoint)
     if manager.latest_checkpoint:

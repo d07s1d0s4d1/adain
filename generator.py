@@ -2,13 +2,13 @@ import os
 import itertools
 import random
 import numpy as np
+import math
 from tensorflow.keras.preprocessing import image
 
 
-def gen(name, size=(256, 256), batch_size=8, mode='cartesian', in_memory=False, val=False):
-    folder = '/val_' if val else '/'
-    c_name = 'sample_data/' + TYPE +  '_data/' + name + folder + 'content/'
-    s_name = 'sample_data/' + TYPE +  '_data/' + name + folder + 'style/'
+def gen(name, size=(256, 256), batch_size=8, mode='cartesian', in_memory=False):
+    c_name = name + '/content/'
+    s_name = name + '/style/'
     c_files = os.listdir(c_name)
     s_files = os.listdir(s_name)
 

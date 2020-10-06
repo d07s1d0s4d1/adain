@@ -97,6 +97,7 @@ def plot(imgs, rows, columns, figsize=(16,16)):
             break
 
         axes = fig.add_subplot(rows, columns, i)
+        axes.axis('off')
         plt.imshow(img)
-        axes.set_title(titles[(i-1) % 3])
+        axes.set_title(titles[(i-1) % 3], fontsize=20)
     plt.show()
